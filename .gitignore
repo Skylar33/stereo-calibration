@@ -1,31 +1,15 @@
-Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
+# 排除编译输出
+out/
 build/
-calib_imgs/
+bin/
+
+# 排除临时文件
+.vs/
+*.user
+*.sln
+*.vcxproj
+*.filters
+
+# 排除标定输出（可选，如果你想保存结果也可以不填）
+*.yml
+*.xml

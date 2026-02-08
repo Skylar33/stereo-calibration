@@ -4,7 +4,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <stdio.h>
 #include <iostream>
-#include "popt_pp.h"
+//#include "popt_pp.h"
 
 using namespace std;
 using namespace cv;
@@ -17,17 +17,25 @@ vector< vector< Point2f > > left_img_points, right_img_points;
 Mat img1, img2, gray1, gray2;
 
 void load_image_points(int board_width, int board_height, int num_imgs, float square_size,
-                      char* leftimg_dir, char* rightimg_dir, char* leftimg_filename, char* rightimg_filename, char* extension) {
+                      string leftimg_dir, string rightimg_dir, string leftimg_filename, string rightimg_filename, string extension) {
 
   Size board_size = Size(board_width, board_height);
   int board_n = board_width * board_height;
 
   for (int i = 1; i <= num_imgs; i++) {
-    char left_img[100], right_img[100];
-    sprintf(left_img, "%s%s%d.%s", leftimg_dir, leftimg_filename, i, extension);
-    sprintf(right_img, "%s%s%d.%s", rightimg_dir, rightimg_filename, i, extension);
-    img1 = imread(left_img, IMREAD_COLOR);
-    img2 = imread(right_img, IMREAD_COLOR);
+
+    string left_path = leftimg_dir + leftimg_filename + to_string(i) + "." + extension;
+    string right_path = rightimg_dir + rightimg_filename + to_string(i) + "." + extension;
+
+    img1 = imread(left_path, IMREAD_COLOR);
+    img2 = imread(right_path, IMREAD_COLOR);
+
+    // 防御性编程：如果任意一张图片读取失败，直接跳过本对图片
+    if (img1.empty() || img2.empty()) {
+        cout << "跳过未找到或无效的图像对: " << i << endl;
+        continue;
+    }
+
     cvtColor(img1, gray1, COLOR_BGR2GRAY);
     cvtColor(img2, gray2, COLOR_BGR2GRAY);
 
@@ -38,12 +46,6 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
     found2 = cv::findChessboardCorners(img2, board_size, corners2,
   CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_FILTER_QUADS);
 
-
-    if(!found1 || !found2){
-      cout << "Chessboard find error!" << endl;
-      cout << "leftImg: " << left_img << " and rightImg: " << right_img <<endl;
-      continue;
-    } 
 
     if (found1)
     {
@@ -83,33 +85,47 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
 
 int main(int argc, char const *argv[])
 {
-  char* leftcalib_file;
-  char* rightcalib_file;
-  char* leftimg_dir;
-  char* rightimg_dir;
-  char* leftimg_filename;
-  char* rightimg_filename;
-  char* extension;
-  char* out_file;
-  int num_imgs;
+  //char* leftcalib_file;
+  //char* rightcalib_file;
+  //char* leftimg_dir;
+  //char* rightimg_dir;
+  //char* leftimg_filename;
+  //char* rightimg_filename;
+  //char* extension;
+  //char* out_file;
+  //int num_imgs;
+  // 
+  // 
+    // --- 手动配置参数 (去 Popt 化修改) ---
+    int num_imgs = 29;                               // 图像最大索引数
+    string leftcalib_file = "intrinsic_left.yml";    // 刚才生成的左相机文件
+    string rightcalib_file = "intrinsic_right.yml";  // 刚才生成的右相机文件
+    string leftimg_dir = "C:/Users/Administrator/source/repos/stereo-calibration/calib_imgs/1/";          // 左图目录
+    string rightimg_dir = "C:/Users/Administrator/source/repos/stereo-calibration/calib_imgs/1/";         // 右图目录 (如果是同一个文件夹)
+    string leftimg_filename = "left";                // 前缀
+    string rightimg_filename = "right";
+    string extension = "jpg";
+    string out_file = "stereo_calib.yml";            // 双目标定输出文件
+    // ------------------------------------
 
-  static struct poptOption options[] = {
-    { "num_imgs",'n',POPT_ARG_INT,&num_imgs,0,"Number of checkerboard images","NUM" },
-    { "leftcalib_file",'u',POPT_ARG_STRING,&leftcalib_file,0,"Left camera calibration","STR" },
-    { "rightcalib_file",'v',POPT_ARG_STRING,&rightcalib_file,0,"Right camera calibration","STR" },
-    { "leftimg_dir",'L',POPT_ARG_STRING,&leftimg_dir,0,"Directory containing left images","STR" },
-    { "rightimg_dir",'R',POPT_ARG_STRING,&rightimg_dir,0,"Directory containing right images","STR" },
-    { "leftimg_filename",'l',POPT_ARG_STRING,&leftimg_filename,0,"Left image prefix","STR" },
-    { "rightimg_filename",'r',POPT_ARG_STRING,&rightimg_filename,0,"Right image prefix","STR" },
-    { "extension",'e',POPT_ARG_STRING,&extension,0,"Image extension","STR" },
-    { "out_file",'o',POPT_ARG_STRING,&out_file,0,"Output calibration filename (YML)","STR" },
-    POPT_AUTOHELP
-    { NULL, 0, 0, NULL, 0, NULL, NULL }
-  };
 
-  POpt popt(NULL, argc, argv, options, 0);
-  int c;
-  while((c = popt.getNextOpt()) >= 0) {}
+  //static struct poptOption options[] = {
+  //  { "num_imgs",'n',POPT_ARG_INT,&num_imgs,0,"Number of checkerboard images","NUM" },
+  //  { "leftcalib_file",'u',POPT_ARG_STRING,&leftcalib_file,0,"Left camera calibration","STR" },
+  //  { "rightcalib_file",'v',POPT_ARG_STRING,&rightcalib_file,0,"Right camera calibration","STR" },
+  //  { "leftimg_dir",'L',POPT_ARG_STRING,&leftimg_dir,0,"Directory containing left images","STR" },
+  //  { "rightimg_dir",'R',POPT_ARG_STRING,&rightimg_dir,0,"Directory containing right images","STR" },
+  //  { "leftimg_filename",'l',POPT_ARG_STRING,&leftimg_filename,0,"Left image prefix","STR" },
+  //  { "rightimg_filename",'r',POPT_ARG_STRING,&rightimg_filename,0,"Right image prefix","STR" },
+  //  { "extension",'e',POPT_ARG_STRING,&extension,0,"Image extension","STR" },
+  //  { "out_file",'o',POPT_ARG_STRING,&out_file,0,"Output calibration filename (YML)","STR" },
+  //  POPT_AUTOHELP
+  //  { NULL, 0, 0, NULL, 0, NULL, NULL }
+  //};
+
+  //POpt popt(NULL, argc, argv, options, 0);
+  //int c;
+  //while((c = popt.getNextOpt()) >= 0) {}
 
   FileStorage fsl(leftcalib_file, FileStorage::READ);
   FileStorage fsr(rightcalib_file, FileStorage::READ);
@@ -130,7 +146,8 @@ int main(int argc, char const *argv[])
   
   cout << "Read intrinsics" << endl;
   
-  stereoCalibrate(object_points, left_img_points, right_img_points, K1, D1, K2, D2, img1.size(), R, T, E, F);
+  double rms = stereoCalibrate(object_points, left_img_points, right_img_points, K1, D1, K2, D2, img1.size(), R, T, E, F);
+  cout << "双目标定 RMS 误差: " << rms << endl;
 
   cv::FileStorage fs1(out_file, cv::FileStorage::WRITE);
   fs1 << "K1" << K1;
