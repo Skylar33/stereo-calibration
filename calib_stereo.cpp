@@ -97,15 +97,15 @@ int main(int argc, char const *argv[])
   // 
   // 
     // --- 手动配置参数 (去 Popt 化修改) ---
-    int num_imgs = 29;                               // 图像最大索引数
-    string leftcalib_file = "intrinsic_left.yml";    // 刚才生成的左相机文件
-    string rightcalib_file = "intrinsic_right.yml";  // 刚才生成的右相机文件
-    string leftimg_dir = "C:/Users/Administrator/source/repos/stereo-calibration/calib_imgs/1/";          // 左图目录
-    string rightimg_dir = "C:/Users/Administrator/source/repos/stereo-calibration/calib_imgs/1/";         // 右图目录 (如果是同一个文件夹)
-    string leftimg_filename = "left";                // 前缀
-    string rightimg_filename = "right";
-    string extension = "jpg";
-    string out_file = "stereo_calib.yml";            // 双目标定输出文件
+    int num_imgs = 20;                               // 图像最大索引数
+    string leftcalib_file = "E:/1.Calibration/out_0206/intrinsic_A.yml";    // 刚才生成的左相机文件
+    string rightcalib_file = "E:/1.Calibration/out_0206/intrinsic_B.yml";  // 刚才生成的右相机文件
+    string leftimg_dir = "E:/1.Calibration/saved_images_0206/saved_images_0206/";          // 左图目录
+    string rightimg_dir = "E:/1.Calibration/saved_images_0206/saved_images_0206/";         // 右图目录 (如果是同一个文件夹)
+    string leftimg_filename = "AB";                // 前缀
+    string rightimg_filename = "BB";
+    string extension = "bmp";
+    string out_file = "E:/1.Calibration/out_0206/stereo_calib.yml";            // 双目标定输出文件
     // ------------------------------------
 
 

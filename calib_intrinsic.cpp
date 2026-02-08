@@ -119,14 +119,14 @@ int main(int argc, char const **argv)
 
 
     // --- 手动配置参数（去 Popt 化修改） ---
-    int board_width = 9;                       // 棋盘格横向角点数
-    int board_height = 6;                      // 棋盘格纵向角点数
-    int num_imgs = 29;                         // 图像最大索引数
-    float square_size = 0.025;                 // 格子大小（单位：米）
-    const char* imgs_directory = "C:/Users/Administrator/source/repos/stereo-calibration/calib_imgs/1/";  // 图像存放目录
-    const char* imgs_filename = "left";         // 图像文件名前缀 (如 left1.jpg 则填 "left")
-    const char* extension = "jpg";             // 扩展名
-    const char* out_file = "intrinsic_left.yml";    // 输出文件名
+    int board_width = 11;                       // 棋盘格横向角点数
+    int board_height = 8;                      // 棋盘格纵向角点数
+    int num_imgs = 20;                         // 图像最大索引数
+    float square_size = 0.040;                 // 格子大小（单位：米）
+    const char* imgs_directory = "E:/1.Calibration/saved_images_0206/saved_images_0206/";  // 图像存放目录
+    const char* imgs_filename = "BB";         // 图像文件名前缀 (如 left1.jpg 则填 "left")
+    const char* extension = "bmp";             // 扩展名
+    const char* out_file = "E:/1.Calibration/out_0206/intrinsic_B.yml";    // 输出文件名
     // ----------------------------1 woxi--------
 
 
